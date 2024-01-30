@@ -7,8 +7,20 @@ namespace Organizer
     {
         public static void Main(string[] _)
         {
+
             // Press <F5> to run this code, when "Hello World!" appears in a black box, remove the line below and write your code below.
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
+
+
+            // Create a new instance of Random
+            Random random = new Random();
+
+            // Generate a random integer between -99 and 99
+            int randomNumber = random.Next(-99, 100);
+
+            Console.WriteLine($"Random Number: {randomNumber}");
+
+
             ShowList("Example of ShowList", new List<int>() { -33, 3, 2, 2, 3, 34, 34, 32, 1, 3, 5, 3, -22, -99, 33, -22, 11, 3, 33, 12, -2, -21, 4, 34, 22, 15, 34,-22 });
         }
 
