@@ -7,23 +7,30 @@ namespace Organizer
     {
         public static void Main(string[] _)
         {
+            List<int> randomNumbers = GenerateRandomIntegers(10, -99, 99);
 
-            // Press <F5> to run this code, when "Hello World!" appears in a black box, remove the line below and write your code below.
-            //Console.WriteLine("Hello World!");
+            // Prints the (10) generated random numbers
+            Console.WriteLine("Random Numbers:");
+            foreach (int number in randomNumbers)
+            {
+                Console.WriteLine(number);
+            }
 
-
-            // Create a new instance of Random
-            Random random = new Random();
-
-            // Generate a random integer between -99 and 99
-            int randomNumber = random.Next(-99, 100);
-
-            Console.WriteLine($"Random Number: {randomNumber}");
-
-
-            ShowList("Example of ShowList", new List<int>() { -33, 3, 2, 2, 3, 34, 34, 32, 1, 3, 5, 3, -22, -99, 33, -22, 11, 3, 33, 12, -2, -21, 4, 34, 22, 15, 34,-22 });
         }
 
+        static List<int> GenerateRandomIntegers(int N, int minValue, int maxValue)
+        {
+            Random random = new Random();
+            List<int> result = new List<int>();
+
+            for (int i = 0; i < N; i++)
+            {
+                int randomNumber = random.Next(minValue, maxValue + 1);
+                result.Add(randomNumber);
+            }
+
+            return result;
+        }
 
         /* Example of a static function */
 
