@@ -9,24 +9,19 @@ namespace Organizer
         {
             List<int> randomNumbers = GenerateRandomIntegers(10, -99, 99);
 
-
-            // Prints (10) generated random numbers, unsorted
-            Console.WriteLine("Random Numbers:");
-            foreach (int number in randomNumbers)
-            {
-                Console.WriteLine(number);
-            }
-
+            
+            bool randomNumbersAreSorted = IsSorted(randomNumbers);
+            Console.Write("Random Numbers are sorted: ");
+            Console.WriteLine(randomNumbersAreSorted);
+           
 
             ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
             List<int> sortedList = shiftHighestSort.Sort(randomNumbers);
 
-            // Prints (10) generated random numbers, sorted
-            Console.WriteLine("Sorted Random Numbers:");
-            foreach (int number in sortedList)
-            {
-                Console.WriteLine(number);
-            }
+
+            bool sortedListIsSorted = IsSorted(sortedList);
+            Console.Write("Sorted Numbers are sorted: ");
+            Console.WriteLine(sortedListIsSorted);
 
         }
 
@@ -43,6 +38,20 @@ namespace Organizer
 
             return result;
         }
+
+
+        private static bool IsSorted(List<int> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if (list[i] > list[i + 1]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
 
         /* Example of a static function */
 
