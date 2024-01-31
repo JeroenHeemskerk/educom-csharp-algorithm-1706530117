@@ -23,11 +23,11 @@ namespace Organizer
         /// <summary>
         /// Sort the array from low to high
         /// </summary>
-        /// <param name="low">De index within this.array to start with</param>
-        /// <param name="high">De index within this.array to stop with</param>
+        /// <param name="low">The index within this.array to start with</param>
+        /// <param name="high">The index within this.array to end with</param>
         private void SortFunction(int low, int high)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }    
     }
 }
