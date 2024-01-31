@@ -9,8 +9,6 @@ namespace Organizer
         {
             List<int> randomNumbers = GenerateRandomIntegers(10, -99, 99);
 
-            ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
-
 
             // Prints (10) generated random numbers, unsorted
             Console.WriteLine("Random Numbers:");
@@ -19,6 +17,8 @@ namespace Organizer
                 Console.WriteLine(number);
             }
 
+
+            ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
             List<int> sortedList = shiftHighestSort.Sort(randomNumbers);
 
             // Prints (10) generated random numbers, sorted
