@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Organizer
 {
@@ -7,21 +8,91 @@ namespace Organizer
     {
         public static void Main(string[] _)
         {
-            List<int> randomNumbers = GenerateRandomIntegers(10, -99, 99);
 
-            
-            bool randomNumbersAreSorted = IsSorted(randomNumbers);
-            Console.Write("Random Numbers are sorted: ");
-            Console.WriteLine(randomNumbersAreSorted);
-           
+            Console.WriteLine("How many elements should the list have?");
+            string amountOfListElementsString = Console.ReadLine();
 
-            ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
-            List<int> sortedList = shiftHighestSort.Sort(randomNumbers);
+            if (int.TryParse(amountOfListElementsString, out int amountOfListElementsInt))
+            {
+                // Parsing successful:
+                Console.WriteLine($"You entered: {amountOfListElementsInt} elements");
 
+                List<int> randomNumbers = GenerateRandomIntegers(amountOfListElementsInt, -99, 99);
 
-            bool sortedListIsSorted = IsSorted(sortedList);
-            Console.Write("Sorted Numbers are sorted: ");
-            Console.WriteLine(sortedListIsSorted);
+                bool randomNumbersAreSorted = IsSorted(randomNumbers);
+                Console.Write("Random Numbers are sorted: ");
+                Console.WriteLine(randomNumbersAreSorted);
+
+                ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
+                RotateSort rotateSort = new RotateSort();
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                //
+
+                stopwatch.Start();
+
+                List<int> shiftSortedList = shiftHighestSort.Sort(randomNumbers);
+
+                stopwatch.Stop();
+
+                bool shiftSortedListIsSorted = IsSorted(shiftSortedList);
+
+                long elapsedShiftSort = stopwatch.ElapsedMilliseconds;
+
+                Console.Write("Shiftsorted Numbers are sorted: " + shiftSortedListIsSorted + ". Duration: ");
+                Console.WriteLine(elapsedShiftSort + " ms.");
+
+                int maxNumbersToPrint = 5;
+                int count = 0;
+
+                Console.WriteLine("Random Numbers:");
+                foreach (int number in shiftSortedList)
+                {
+                    if (count >= maxNumbersToPrint)
+                    {
+                        break;
+                    }
+
+                    Console.WriteLine(number);
+                    count++;
+                }
+
+                //
+
+                stopwatch.Restart();
+
+                List<int> rotateSortedList = rotateSort.Sort(randomNumbers);
+
+                stopwatch.Stop();
+
+                long elapsedRotateSort = stopwatch.ElapsedMilliseconds;
+
+                bool rotateSortedListIsSorted = IsSorted(rotateSortedList);
+
+                Console.Write("Rotatesorted Numbers is sorted: " + rotateSortedListIsSorted + ". Duration: ");
+                Console.WriteLine(elapsedRotateSort + " ms.");
+
+                maxNumbersToPrint = 5;
+                count = 0;
+
+                Console.WriteLine("Random Numbers:");
+                foreach (int number in rotateSortedList)
+                {
+                    if (count >= maxNumbersToPrint)
+                    {
+                        break;
+                    }
+
+                    Console.WriteLine(number);
+                    count++;
+                }
+            }
+            else
+            {
+                // Parsing failed
+                Console.WriteLine("Invalid format for integer. Sorting not excecuted.");
+            }
 
         }
 
@@ -39,7 +110,6 @@ namespace Organizer
             return result;
         }
 
-
         private static bool IsSorted(List<int> list)
         {
             for (int i = 0; i < list.Count - 1; i++)
@@ -50,7 +120,6 @@ namespace Organizer
             }
             return true;
         }
-
 
 
         /* Example of a static function */

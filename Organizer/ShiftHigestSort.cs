@@ -40,7 +40,6 @@ namespace Organizer
                     }
                 }
             }
-            //throw new NotImplementedException();
         }
     }
 }
