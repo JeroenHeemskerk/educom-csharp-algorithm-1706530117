@@ -40,23 +40,9 @@ namespace Organizer
 
                 long elapsedShiftSort = stopwatch.ElapsedMilliseconds;
 
+                ShowList("Shift sorted", shiftSortedList);
                 Console.Write("Shiftsorted Numbers are sorted: " + shiftSortedListIsSorted + ". Duration: ");
                 Console.WriteLine(elapsedShiftSort + " ms.");
-
-                int maxNumbersToPrint = 5;
-                int count = 0;
-
-                Console.WriteLine("Random Numbers:");
-                foreach (int number in shiftSortedList)
-                {
-                    if (count >= maxNumbersToPrint)
-                    {
-                        break;
-                    }
-
-                    Console.WriteLine(number);
-                    count++;
-                }
 
                 //
 
@@ -70,23 +56,11 @@ namespace Organizer
 
                 bool rotateSortedListIsSorted = IsSorted(rotateSortedList);
 
-                Console.Write("Rotatesorted Numbers is sorted: " + rotateSortedListIsSorted + ". Duration: ");
+
+                ShowList("Rotate sorted", rotateSortedList);
+                Console.Write("Rotatesorted Numbers are sorted: " + rotateSortedListIsSorted + ". Duration: ");
                 Console.WriteLine(elapsedRotateSort + " ms.");
 
-                maxNumbersToPrint = 5;
-                count = 0;
-
-                Console.WriteLine("Random Numbers:");
-                foreach (int number in rotateSortedList)
-                {
-                    if (count >= maxNumbersToPrint)
-                    {
-                        break;
-                    }
-
-                    Console.WriteLine(number);
-                    count++;
-                }
             }
             else
             {
@@ -134,7 +108,7 @@ namespace Organizer
             int count = theList.Count;
             if (count > 100)
             {
-                count = 300; // Do not show more than 300 numbers
+                count = 200; // Do not show more than 200 numbers
             }
             Console.WriteLine();
             Console.Write(label);

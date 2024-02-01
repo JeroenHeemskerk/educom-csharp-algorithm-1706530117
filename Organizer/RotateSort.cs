@@ -5,7 +5,6 @@ namespace Organizer
 {
 	public class RotateSort
 	{
-
         private List<int> list = new List<int>();
 
         /// <summary>
@@ -22,7 +21,6 @@ namespace Organizer
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="low">De index within this.array to start with</param>
         /// <param name="high">De index within this.array to stop with</param>
@@ -37,7 +35,6 @@ namespace Organizer
             }
         }
 
-        /// 
         /// Partition the array in a group 'low' digits (e.a. lower than a chosen pivot) and a group 'high' digits
         /// </summary>
         /// <param name="low">De index within this.array to start with</param>
