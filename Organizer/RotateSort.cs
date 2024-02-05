@@ -26,6 +26,7 @@ namespace Organizer
         /// <param name="high">De index within this.array to stop with</param>
         private void SortFunction(int low, int high)
         {
+           //the quicksort function that uses recursion!
             if (low < high)
             {
                 int pivotIndex = Partitioning(low, high);
@@ -42,6 +43,9 @@ namespace Organizer
         /// <returns>The index in the array of the first of the 'high' digits</returns>
         private int Partitioning(int low, int high)
         {
+            //Produces the pivot index and moves the items that are less than or equal to
+            // the pivot to one side, and the items that are greater than to the other side. 
+
             int randomIndex = new Random().Next(low, high + 1);
             Swap(randomIndex, high);
 
@@ -60,6 +64,8 @@ namespace Organizer
             Swap(i + 1, high);
 
             return i + 1;
+
+            //this should return the pivot index (where do we split the array)
         }
 
         private void Swap(int i, int j)
