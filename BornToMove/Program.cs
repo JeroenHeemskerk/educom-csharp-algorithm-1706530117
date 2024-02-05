@@ -25,7 +25,8 @@ namespace BornToMove
                 GetMoveIds();
                 GetRandomId();
                 Console.WriteLine($"Id: {randomId}");
-                
+                GetMoveBasedOnId();
+
                 // de lijst met id's wordt opgehaald. Er wordt er random 1 gekozen.
                 // De move met gekozen id, wordt opgehaald en de data wordt getoond.
                 // Na afloop wordt er om een beoordeling en intensiteit gevraagd (1-5) 
@@ -72,10 +73,49 @@ namespace BornToMove
                 {
                     Console.WriteLine($"Exception: {e.Message}");
                 }
-            }
-
-            
+            } 
         }
+
+        private static void GetMoveBasedOnId()
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = BornToMove;Integrated Security=True;";
+            string sqlQuery = "SELECT *" +
+                              "FROM dbo.move;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (Convert.ToInt32(reader["id"]) == randomId) {
+
+                                    string name = reader["name"].ToString();
+                                    string description = reader["description"].ToString();
+                                    string sweatRate = reader["sweatRate"].ToString();
+                                    Console.WriteLine($"Name: {name}, Description: {description}, Sweat Rate: {sweatRate}");
+
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (SqlException e)
+                {
+                    Console.WriteLine($"Exception: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Exception: {e.Message}");
+                }
+            }
+        }
+
 
         static void GetRandomId()
         {
