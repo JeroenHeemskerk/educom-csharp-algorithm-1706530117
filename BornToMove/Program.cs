@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 
@@ -8,7 +9,8 @@ namespace BornToMove
     public class Program
     {
         private static List<int> ids = new List<int>();
-        private List<Move> moves = new List<Move>();
+        private static int randomId;
+        private List<int> moves = new List<int>();
 
 
         private static void Main(string[] args)
@@ -21,10 +23,9 @@ namespace BornToMove
             if (userChoice == "suggestion")
             {
                 GetMoveIds();
-                foreach (int id in ids)
-                {
-                    Console.WriteLine($"Id: {id}");
-                }
+                GetRandomId();
+                Console.WriteLine($"Id: {randomId}");
+                
                 // de lijst met id's wordt opgehaald. Er wordt er random 1 gekozen.
                 // De move met gekozen id, wordt opgehaald en de data wordt getoond.
                 // Na afloop wordt er om een beoordeling en intensiteit gevraagd (1-5) 
@@ -72,9 +73,22 @@ namespace BornToMove
                     Console.WriteLine($"Exception: {e.Message}");
                 }
             }
+
+            
         }
 
+        static void GetRandomId()
+        {
+            if (ids == null || ids.Count == 0)
+            {
+                throw new ArgumentException("The list is either null or empty.");
+            }
 
+            Random random = new Random();
+            int randomIndex = random.Next(0, ids.Count);
+
+            randomId = ids[randomIndex];
+        }
 
     }
 
