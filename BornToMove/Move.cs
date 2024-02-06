@@ -3,37 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BornToMove
+namespace BornToMove.DAL
 {
     public class Move
 	{
-        private int id;
-        private string name;
-        private string description;
-        private int sweatRate;
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public int SweatRate { get; set; }
 
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
 
-        public string Name
+        public Move(int id, string name, string description, int sweatRate)
         {
-            get { return name; }
-            set { name = value; }
-        }
-
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
-
-        public int SweatRate
-        {
-            get { return sweatRate; }
-            set { sweatRate = value; }
+            this.Id = id;
+            this.Name = name;
+            this.Description = description;
+            this.SweatRate = sweatRate;
         }
     }
 }

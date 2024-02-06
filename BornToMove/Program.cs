@@ -11,13 +11,6 @@ namespace BornToMove
         private static List<int> ids = new List<int>();
         private static List<string> moveNames = new List<string>();
 
-        private static int randomId;
-        private List<int> moves = new List<int>();
-        private static string? ratingIntensity;
-        private static string? ratingMove;
-
-
-
         private static void Main(string[] args)
         {
             Console.WriteLine("You should get moving!");
@@ -25,18 +18,23 @@ namespace BornToMove
             string userChoice = Console.ReadLine();
             Console.WriteLine($"You chose: {userChoice}");
 
+            if (userChoice != "suggestion" || userChoice != "list")
+            {
+                Console.WriteLine("That is not a valid option. Please start over and choose 'suggestion' or 'list.'");
+            }
             if (userChoice == "suggestion")
             {
                 GetMoveIds();
-                GetRandomId();
+                int randomId = GetRandomId();
                 Console.WriteLine($"Id: {randomId}");
                 GetMoveBasedOnId(randomId);
 
                 Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
-                ratingMove = Console.ReadLine();
+                string ratingMove = Console.ReadLine();
                 Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
-                ratingIntensity = Console.ReadLine();
-            } else if(userChoice == "list")
+                string ratingIntensity = Console.ReadLine();
+            }
+            else if (userChoice == "list")
             {
                 Console.WriteLine("Choose a number from the list or type '0' if you want to add a new move.");
                 GetAllMoves();
@@ -45,7 +43,8 @@ namespace BornToMove
                 if (listChoice != 0)
                 {
                     GetMoveBasedOnId(listChoice);
-                } else if (listChoice == 0)
+                }
+                else if (listChoice == 0)
                 {
                     Console.WriteLine("What is the name of the new move?");
                     string nameNewMove = Console.ReadLine();
@@ -55,7 +54,8 @@ namespace BornToMove
                     if (moveNames.Contains(nameNewMove))
                     {
                         Console.WriteLine($"{nameNewMove} is already on the list.");
-                    } else
+                    }
+                    else
                     {
                         Console.WriteLine("What is the description of the new move?");
                         string descriptionNewMove = Console.ReadLine();
@@ -66,17 +66,17 @@ namespace BornToMove
                         WriteNewMove(nameNewMove, descriptionNewMove, sweatRateNewMove);
 
                     }
-                    
-                }
-                
 
-                ratingMove = Console.ReadLine();
+                } 
+
+
+                string ratingMove = Console.ReadLine();
                 Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
-                ratingIntensity = Console.ReadLine();
+                string ratingIntensity = Console.ReadLine();
             }
         }
 
-     
+
 
         private static void WriteNewMove(string name, string description, int sweatRate)
         {
@@ -91,7 +91,7 @@ namespace BornToMove
 
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {
-                        int rowsAffected = command.ExecuteNonQuery(); 
+                        int rowsAffected = command.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {
@@ -149,7 +149,7 @@ namespace BornToMove
                 {
                     Console.WriteLine($"Exception: {e.Message}");
                 }
-            } 
+            }
         }
 
         private static void GetMoveBasedOnId(int id)
@@ -169,7 +169,8 @@ namespace BornToMove
                         {
                             while (reader.Read())
                             {
-                                if (Convert.ToInt32(reader["id"]) == id) {
+                                if (Convert.ToInt32(reader["id"]) == id)
+                                {
 
                                     string name = reader["name"].ToString();
                                     string description = reader["description"].ToString();
@@ -210,12 +211,12 @@ namespace BornToMove
                         {
                             while (reader.Read())
                             {
-                                    int id = Convert.ToInt32(reader["id"].ToString());
-                                    string name = reader["name"].ToString();
-                                    string sweatRate = reader["sweatRate"].ToString();
-                                    Console.WriteLine($"{id}. Name: {name}, Sweat Rate: {sweatRate}");
+                                int id = Convert.ToInt32(reader["id"].ToString());
+                                string name = reader["name"].ToString();
+                                string sweatRate = reader["sweatRate"].ToString();
+                                Console.WriteLine($"{id}. Name: {name}, Sweat Rate: {sweatRate}");
 
-                                    moveNames.Add(name);
+                                moveNames.Add(name);
                             }
                         }
                     }
@@ -232,7 +233,7 @@ namespace BornToMove
         }
 
 
-        static void GetRandomId()
+        static int GetRandomId()
         {
             if (ids == null || ids.Count == 0)
             {
@@ -242,7 +243,7 @@ namespace BornToMove
             Random random = new Random();
             int randomIndex = random.Next(0, ids.Count);
 
-            randomId = ids[randomIndex];
+            return ids[randomIndex];
         }
 
     }
