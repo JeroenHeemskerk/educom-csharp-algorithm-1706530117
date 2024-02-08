@@ -4,15 +4,11 @@ using System.Data;
 using BornToMove.Business;
 using Microsoft.Data.SqlClient;
 
-// Ik moet in deze klasse de MOveContext gaan instantiëren
-// new MoveContext!
-// Die instantie gaat dus helemaal doot het po
 
 namespace BornToMove
 {
     public class Program
     {
-        private static List<int> ids = new List<int>();
         private static List<string> moveNames = new List<string>();
 
         private static void Main(string[] args)
@@ -39,86 +35,36 @@ namespace BornToMove
             }
             else if (userChoice == "list")
             {
-                Console.WriteLine("Choose a number from the list or type '0' if you want to add a new move.");
+                Console.WriteLine("Choose a number from the list or type 'new' if you want to add a new move. " +
+                    "If instead you would like to delete or modify a move, type 'delete' or 'modify'.");
                 buMove.GiveListOfMoves();
+                var listChoice = Console.ReadLine();
 
-                int listChoice = int.Parse(Console.ReadLine());
-
-                if (listChoice != 0)
+                if (listChoice != "new" && listChoice != "delete" && listChoice != "modify")
                 {
-                    buMove.GiveMoveBasedOnId(listChoice);
+                    int listChoiceInt = int.Parse(listChoice);
+                    buMove.GiveMoveBasedOnId(listChoiceInt);
+
+                    Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
+                    string ratingMove = Console.ReadLine();
+                    Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
+                    string ratingIntensity = Console.ReadLine();
                 }
-                else if (listChoice == 0)
+                else if (listChoice == "new")
                 {
-                    Console.WriteLine("What is the name of the new move?");
-                    string nameNewMove = Console.ReadLine();
-
-                    //als deze niet al bestaat:
-
-                    if (moveNames.Contains(nameNewMove))
-                    {
-                        Console.WriteLine($"{nameNewMove} is already on the list.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("What is the description of the new move?");
-                        string descriptionNewMove = Console.ReadLine();
-
-                        Console.WriteLine("What is the sweatrate of the new move?");
-                        int sweatRateNewMove = int.Parse(Console.ReadLine());
-
-                        WriteNewMove(nameNewMove, descriptionNewMove, sweatRateNewMove);
-
-                    }
-
+                    buMove.SaveMoveIfNotExists();
+                } else if (listChoice == "delete")
+                {
+                    Console.WriteLine("Write down the id of the move that you want to delete.");
+                    var idOfMoveToBeDeleted = int.Parse(Console.ReadLine());
+                    buMove.deleteMove(idOfMoveToBeDeleted);
+                } else if (listChoice == "modify")
+                {
+                    buMove.modifyMove();
                 }
 
-
-                string ratingMove = Console.ReadLine();
-                Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
-                string ratingIntensity = Console.ReadLine();
             }
         }
-
-
-
-        private static void WriteNewMove(string name, string description, int sweatRate)
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = BornToMove;Integrated Security=True;";
-            string sqlQuery = $"INSERT INTO dbo.move (name, description, sweatRate) VALUES ('{name}', '{description}', {sweatRate})";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            Console.WriteLine($"Nieuwe move succesvol toegevoegd. Hoeveelheid rijen toegevoegd: {rowsAffected}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Er zijn geen rijen toegevoegd. Er is iets mis gegaan");
-                        }
-                    }
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-            }
-
-        }
-
 
 
     }
