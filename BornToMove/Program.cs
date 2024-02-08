@@ -1,8 +1,12 @@
 ﻿
 using System.Collections.Generic;
 using System.Data;
+using BornToMove.Business;
 using Microsoft.Data.SqlClient;
 
+// Ik moet in deze klasse de MOveContext gaan instantiëren
+// new MoveContext!
+// Die instantie gaat dus helemaal doot het po
 
 namespace BornToMove
 {
@@ -13,21 +17,20 @@ namespace BornToMove
 
         private static void Main(string[] args)
         {
+            BuMove buMove = new BuMove();
+
             Console.WriteLine("You should get moving!");
             Console.WriteLine("Do you want a suggestion (type: 'suggestion') or do you want to choose a move from the list (type: 'list')?");
             string userChoice = Console.ReadLine();
             Console.WriteLine($"You chose: {userChoice}");
 
-            if (userChoice != "suggestion" || userChoice != "list")
+            if (userChoice != "suggestion" && userChoice != "list")
             {
                 Console.WriteLine("That is not a valid option. Please start over and choose 'suggestion' or 'list.'");
             }
             if (userChoice == "suggestion")
             {
-                GetMoveIds();
-                int randomId = GetRandomId();
-                Console.WriteLine($"Id: {randomId}");
-                GetMoveBasedOnId(randomId);
+                buMove.GenerateRandomMove();
 
                 Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
                 string ratingMove = Console.ReadLine();
@@ -37,12 +40,13 @@ namespace BornToMove
             else if (userChoice == "list")
             {
                 Console.WriteLine("Choose a number from the list or type '0' if you want to add a new move.");
-                GetAllMoves();
+                buMove.GiveListOfMoves();
+
                 int listChoice = int.Parse(Console.ReadLine());
 
                 if (listChoice != 0)
                 {
-                    GetMoveBasedOnId(listChoice);
+                    buMove.GiveMoveBasedOnId(listChoice);
                 }
                 else if (listChoice == 0)
                 {
@@ -67,7 +71,7 @@ namespace BornToMove
 
                     }
 
-                } 
+                }
 
 
                 string ratingMove = Console.ReadLine();
@@ -116,137 +120,9 @@ namespace BornToMove
         }
 
 
-        private static void GetMoveIds()
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = BornToMove;Integrated Security=True;";
-            string sqlQuery = "SELECT *" +
-                              "FROM dbo.move;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                // access columns: reader["ColumnName"]
-                                // In first call : only fetch the id's 
-                                int id = (int)reader["id"];
-                                ids.Add(id);
-                            }
-                        }
-                    }
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-            }
-        }
-
-        private static void GetMoveBasedOnId(int id)
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = BornToMove;Integrated Security=True;";
-            string sqlQuery = "SELECT *" +
-                              "FROM dbo.move;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                if (Convert.ToInt32(reader["id"]) == id)
-                                {
-
-                                    string name = reader["name"].ToString();
-                                    string description = reader["description"].ToString();
-                                    string sweatRate = reader["sweatRate"].ToString();
-                                    Console.WriteLine($"Name: {name}, Description: {description}, Sweat Rate: {sweatRate}");
-
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-            }
-        }
-
-
-        private static void GetAllMoves()
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog = BornToMove;Integrated Security=True;";
-            string sqlQuery = "SELECT *" +
-                              "FROM dbo.move;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                int id = Convert.ToInt32(reader["id"].ToString());
-                                string name = reader["name"].ToString();
-                                string sweatRate = reader["sweatRate"].ToString();
-                                Console.WriteLine($"{id}. Name: {name}, Sweat Rate: {sweatRate}");
-
-                                moveNames.Add(name);
-                            }
-                        }
-                    }
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Exception: {e.Message}");
-                }
-            }
-        }
-
-
-        static int GetRandomId()
-        {
-            if (ids == null || ids.Count == 0)
-            {
-                throw new ArgumentException("The list is either null or empty.");
-            }
-
-            Random random = new Random();
-            int randomIndex = random.Next(0, ids.Count);
-
-            return ids[randomIndex];
-        }
 
     }
+     
 
 }
 
