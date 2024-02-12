@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using BornToMove.Business;
+using BornToMove.DAL;
 using Microsoft.Data.SqlClient;
+
 
 
 namespace BornToMove
@@ -14,6 +16,10 @@ namespace BornToMove
         private static void Main(string[] args)
         {
             BuMove buMove = new BuMove();
+            MoveContext moveContext = new MoveContext();
+
+            moveContext.CheckAndAddMovesIfTableEmpty();
+
 
             Console.WriteLine("You should get moving!");
             Console.WriteLine("Do you want a suggestion (type: 'suggestion') or do you want to choose a move from the list (type: 'list')?");
