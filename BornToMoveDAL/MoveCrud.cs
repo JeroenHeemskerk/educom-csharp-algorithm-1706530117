@@ -37,9 +37,11 @@ namespace BornToMove.DAL
         {
             try
             {
-                var moves = MoveContext.Move.ToList();
-                return moves;
+                var moves = MoveContext.Move
+                    .Include(m => m.Ratings)
+                    .ToList();
 
+                return moves;
             }
             catch (Exception e)
             {
@@ -47,13 +49,15 @@ namespace BornToMove.DAL
                 return null;
             }
         }
+
         public Move? ReadMoveById(int id)
         {
             try
             {
                 var selectedMove = MoveContext.Move
-               .Where(move => move.Id == id)
-               .FirstOrDefault();
+                    .Include(m => m.Ratings)
+                    .FirstOrDefault(move => move.Id == id);
+
                 return selectedMove;
             }
             catch (Exception e)
@@ -112,28 +116,40 @@ namespace BornToMove.DAL
 
         public void addRating(Move move, double ratingIntensity, double ratingMove)
         {
-            //deze functie kan de rating toevoegen
-            //Hier een nieuwe instantie van moveRating aanmaken? Of hierboven al?
-
-
             try
             {
-                if (move != null)
-                {
-                    var moveRating = new MoveRating { Rating = ratingIntensity, Vote = ratingMove };
-
-                    move.Ratings.Add(moveRating);
-                    MoveContext.SaveChanges();
-                    Console.WriteLine("Successfully added your ratings to the database.");
-                }
-                else
-                {
-                    Console.WriteLine("Error: Move object is null.");
-                }
+               var moveRating = new MoveRating { Rating = ratingIntensity, Vote = ratingMove };
+               move.Ratings.Add(moveRating);
+               MoveContext.SaveChanges();
+               Console.WriteLine("Successfully added your ratings to the database.");            
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Something went wrong, exception: {e.Message}");
+            }
+
+        }
+
+
+        public double getAverageRating(Move move)
+        {
+            try
+            {
+                if (move != null)
+                {  
+                    double averageRating = move.Ratings.Select(r => r.Rating).DefaultIfEmpty(0).Average();
+                    return averageRating;
+                }
+                else
+                {
+                    Console.WriteLine("Error: Move object is null.");
+                    return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error calculating average rating: {e.Message}");
+                return 0;
             }
 
         }

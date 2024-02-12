@@ -33,7 +33,10 @@ namespace BornToMove.Business
             //Haal move behorend bij random id op
             this.randomMove = this.moveCrud.ReadMoveById(randomId);
 
-            Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + ".");
+            var averageRating = this.moveCrud.getAverageRating(this.randomMove);
+
+
+            Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + averageRating + ".");
 
             this.moveToBeRated = this.randomMove;
         }
@@ -52,7 +55,9 @@ namespace BornToMove.Business
         public void GiveMoveBasedOnId(int id)
         {
             var chosenMove = this.moveCrud.ReadMoveById(id);
-            Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ".");
+            var averageRating = this.moveCrud.getAverageRating(chosenMove);
+
+            Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + averageRating + ".");
 
             this.moveToBeRated = chosenMove;
 
@@ -123,6 +128,7 @@ namespace BornToMove.Business
         {
             this.moveCrud.addRating(this.moveToBeRated, this.ratingIntensity, this.ratingMove);
         }
+
     }
 
     
