@@ -13,7 +13,7 @@ namespace BornToMove.DAL
         public int SweatRate { get; set; }
 
         //Onderstaande property creeert een one-to-many relatie tussen Move en MoveRating
-        virtual public ICollection<MoveRating> Ratings { get; set; }
+        virtual public ICollection<MoveRating> Ratings { get; set; } = new List<MoveRating>();  
 
 
         public Move(string name, string description, int sweatRate)

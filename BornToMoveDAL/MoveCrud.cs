@@ -109,5 +109,34 @@ namespace BornToMove.DAL
             return moveExists;
         }
 
+
+        public void addRating(Move move, double ratingIntensity, double ratingMove)
+        {
+            //deze functie kan de rating toevoegen
+            //Hier een nieuwe instantie van moveRating aanmaken? Of hierboven al?
+
+
+            try
+            {
+                if (move != null)
+                {
+                    var moveRating = new MoveRating { Rating = ratingIntensity, Vote = ratingMove };
+
+                    move.Ratings.Add(moveRating);
+                    MoveContext.SaveChanges();
+                    Console.WriteLine("Successfully added your ratings to the database.");
+                }
+                else
+                {
+                    Console.WriteLine("Error: Move object is null.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Something went wrong, exception: {e.Message}");
+            }
+
+        }
+
     }
 }

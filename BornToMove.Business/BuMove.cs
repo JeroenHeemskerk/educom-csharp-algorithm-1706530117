@@ -12,6 +12,10 @@ namespace BornToMove.Business
     public class BuMove
     {
         private MoveCrud moveCrud;
+        private double ratingMove;
+        private double ratingIntensity;
+        private Move randomMove;
+        private Move moveToBeRated;
 
         public BuMove()
         {
@@ -27,9 +31,11 @@ namespace BornToMove.Business
             int randomIndex = random.Next(0, listOfIds.Count);
             var randomId = listOfIds[randomIndex];
             //Haal move behorend bij random id op
-            var randomMove = this.moveCrud.ReadMoveById(randomId);
+            this.randomMove = this.moveCrud.ReadMoveById(randomId);
 
             Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + ".");
+
+            this.moveToBeRated = this.randomMove;
         }
 
         public void GiveListOfMoves()
@@ -47,6 +53,8 @@ namespace BornToMove.Business
         {
             var chosenMove = this.moveCrud.ReadMoveById(id);
             Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ".");
+
+            this.moveToBeRated = chosenMove;
 
         }
 
@@ -99,5 +107,25 @@ namespace BornToMove.Business
 
             this.moveCrud.DeleteMove(idOfMoveToBeDeleted);
             Console.WriteLine($"'The move with id: {idOfMoveToBeDeleted} has been deleted'"); }
+
+
+
+        public void getRatingFromUser()
+        {
+            Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
+            this.ratingMove = double.Parse(Console.ReadLine());
+            Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
+            this.ratingIntensity = double.Parse(Console.ReadLine());
+
+        }
+
+        public void addUserRatingMove()
+        {
+            this.moveCrud.addRating(this.moveToBeRated, this.ratingIntensity, this.ratingMove);
+        }
     }
+
+    
+
+
 }

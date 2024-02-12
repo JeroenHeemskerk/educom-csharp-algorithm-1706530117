@@ -33,11 +33,8 @@ namespace BornToMove
             if (userChoice == "suggestion")
             {
                 buMove.GenerateRandomMove();
-
-                Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
-                string ratingMove = Console.ReadLine();
-                Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
-                string ratingIntensity = Console.ReadLine();
+                buMove.getRatingFromUser();
+                buMove.addUserRatingMove();
             }
             else if (userChoice == "list")
             {
@@ -50,11 +47,8 @@ namespace BornToMove
                 {
                     int listChoiceInt = int.Parse(listChoice);
                     buMove.GiveMoveBasedOnId(listChoiceInt);
-
-                    Console.WriteLine("On a scale of 1 to 5, how would you rate this move?");
-                    string ratingMove = Console.ReadLine();
-                    Console.WriteLine("On a scale of 1 to 5, how would you rate the intensity of this move?");
-                    string ratingIntensity = Console.ReadLine();
+                    buMove.getRatingFromUser();
+                    buMove.addUserRatingMove();
                 }
                 else if (listChoice == "new")
                 {
