@@ -3,27 +3,23 @@ using System.Collections.Generic;
 
 namespace Organizer
 {
-	public class RotateSort
-	{
-        private List<int> list = new List<int>();
+	public class RotateSort<T>
+    {
+        private List<T> list;
+        private IComparer<T> comparer;
 
-        /// <summary>
-        /// Sort an array using the functions below
-        /// </summary>
-        /// <param name="input">The unsorted array</param>
-        /// <returns>The sorted array</returns>
-        public List<int> Sort(List<int> input)
+    
+        
+        public List<T> Sort<T>(List<T> input, IComparer<T> comparer)
         {
-            list = new List<int>(input);
+            this.list = input;
+            this.comparer = comparer;
 
             SortFunction(0, list.Count - 1);
-            return list;
+            return this.list;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="low">De index within this.array to start with</param>
-        /// <param name="high">De index within this.array to stop with</param>
+      
         private void SortFunction(int low, int high)
         {
            //the quicksort function that uses recursion!
@@ -36,11 +32,6 @@ namespace Organizer
             }
         }
 
-        /// Partition the array in a group 'low' digits (e.a. lower than a chosen pivot) and a group 'high' digits
-        /// </summary>
-        /// <param name="low">De index within this.array to start with</param>
-        /// <param name="high">De index within this.array to stop with</param>
-        /// <returns>The index in the array of the first of the 'high' digits</returns>
         private int Partitioning(int low, int high)
         {
             //Produces the pivot index and moves the items that are less than or equal to
@@ -49,12 +40,12 @@ namespace Organizer
             int randomIndex = new Random().Next(low, high + 1);
             Swap(randomIndex, high);
 
-            int pivot = list[high];
+            T pivot = list[high];
             int i = low - 1;
 
             for (int j = low; j < high; j++)
             {
-                if (list[j] < pivot)
+                if (comparer.Compare(list[j], pivot) < 0)
                 {
                     i++;
                     Swap(i, j);
@@ -70,7 +61,7 @@ namespace Organizer
 
         private void Swap(int i, int j)
         {
-            int temp = list[i];
+            T temp = list[i];
             list[i] = list[j];
             list[j] = temp;
         }

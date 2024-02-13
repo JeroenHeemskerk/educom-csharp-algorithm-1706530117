@@ -131,8 +131,5 @@ namespace BornToMove.Business
         {
             this.moveCrud.addRating(this.moveToBeRated, this.ratingIntensity, this.ratingMove);
         }
-
     }
-
-
 }
