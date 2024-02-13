@@ -35,8 +35,9 @@ namespace BornToMove.Business
 
             var averageRating = this.moveCrud.getAverageRating(this.randomMove);
 
+            var floatAverageRating = Convert.ToSingle(averageRating);
 
-            Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + averageRating + ".");
+            Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + floatAverageRating + ".");
 
             this.moveToBeRated = this.randomMove;
         }
@@ -57,7 +58,9 @@ namespace BornToMove.Business
             var chosenMove = this.moveCrud.ReadMoveById(id);
             var averageRating = this.moveCrud.getAverageRating(chosenMove);
 
-            Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + averageRating + ".");
+            var floatAverageRating = Convert.ToSingle(averageRating);
+
+            Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + floatAverageRating + ".");
 
             this.moveToBeRated = chosenMove;
 
@@ -130,8 +133,6 @@ namespace BornToMove.Business
         }
 
     }
-
-    
 
 
 }
