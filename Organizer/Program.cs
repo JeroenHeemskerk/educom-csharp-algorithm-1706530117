@@ -24,7 +24,7 @@ namespace Organizer
                 Console.WriteLine(randomNumbersAreSorted);
 
                 ShiftHighestSort shiftHighestSort = new ShiftHighestSort();
-                RotateSort rotateSort = new RotateSort();
+                RotateSort<int> rotateSort = new RotateSort<int>();
 
                 Stopwatch stopwatch = new Stopwatch();
 
@@ -48,7 +48,9 @@ namespace Organizer
 
                 stopwatch.Restart();
 
-                List<int> rotateSortedList = rotateSort.Sort(randomNumbers);
+                IComparer<int> comparer = Comparer<int>.Default;
+
+                List<int> rotateSortedList = rotateSort.Sort(randomNumbers, comparer);
 
                 stopwatch.Stop();
 

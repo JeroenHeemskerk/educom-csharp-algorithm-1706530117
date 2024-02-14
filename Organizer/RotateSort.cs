@@ -10,7 +10,7 @@ namespace Organizer
 
     
         
-        public List<T> Sort<T>(List<T> input, IComparer<T> comparer)
+        public List<T> Sort(List<T> input, IComparer<T> comparer)
         {
             this.list = input;
             this.comparer = comparer;
