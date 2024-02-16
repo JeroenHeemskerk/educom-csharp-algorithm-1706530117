@@ -1,4 +1,5 @@
-﻿using BornToMove.Business;
+﻿using BornToMove.ASPNET.Models;
+using BornToMove.Business;
 using BornToMove.DAL;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +18,11 @@ namespace BornToMove.ASPNET.Controllers
         public IActionResult Index()
         {
           List<Move> listOfAllMoves = _buMove.GiveListOfMoves();
-            // code om de lijst met moves op te halen
-            return View();
+            MoveViewModel moveModel = new MoveViewModel { 
+                Moves = listOfAllMoves };
+               
+            // code om de lijst met moves op te halenx
+            return View(moveModel);
         }
         public IActionResult Details(int id)
         {
