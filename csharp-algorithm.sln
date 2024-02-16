@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.Business", "Born
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.DAL", "BornToMoveDAL\BornToMove.DAL.csproj", "{C07FAEAA-EE85-483A-A8DA-CA00307C6423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BornToMove.OrganizerTest", "BornToMove.OrganizerTest\BornToMove.OrganizerTest.csproj", "{DB5C1DF4-F6AD-4226-871F-E117B725110F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.OrganizerTest", "BornToMove.OrganizerTest\BornToMove.OrganizerTest.csproj", "{DB5C1DF4-F6AD-4226-871F-E117B725110F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BornToMove.ASPNET", "BornToMove.ASPNET\BornToMove.ASPNET.csproj", "{378005EB-70C9-4DF7-8A7B-0ADF0F463572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{DB5C1DF4-F6AD-4226-871F-E117B725110F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB5C1DF4-F6AD-4226-871F-E117B725110F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB5C1DF4-F6AD-4226-871F-E117B725110F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378005EB-70C9-4DF7-8A7B-0ADF0F463572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378005EB-70C9-4DF7-8A7B-0ADF0F463572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378005EB-70C9-4DF7-8A7B-0ADF0F463572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378005EB-70C9-4DF7-8A7B-0ADF0F463572}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

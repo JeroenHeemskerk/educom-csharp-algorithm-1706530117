@@ -18,7 +18,6 @@ namespace BornToMove.DAL
 
         public Move(string name, string description, int sweatRate)
         {
-            //this.Id = id;
             this.Name = name;
             this.Description = description;
             this.SweatRate = sweatRate;

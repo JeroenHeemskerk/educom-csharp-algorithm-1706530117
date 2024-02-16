@@ -35,6 +35,10 @@ namespace BornToMove.DAL
 
         public List<Move>? ReadAllMoves()
         {
+            //deze lijst include al ratings?
+            //rotatesort met moverating als type
+            // 
+
             try
             {
                 var moves = MoveContext.Move
