@@ -22,7 +22,7 @@ namespace BornToMove.Business
             this.moveCrud = new MoveCrud();
         }
 
-        public void GenerateRandomMove()
+        public Move GenerateRandomMove()
         {
             //Haal alle id's op en stop ze in een lijst
             var listOfIds = this.moveCrud.GetAllIds();
@@ -33,36 +33,41 @@ namespace BornToMove.Business
             //Haal move behorend bij random id op
             this.randomMove = this.moveCrud.ReadMoveById(randomId);
 
-            var averageRating = this.moveCrud.getAverageRating(this.randomMove);
+            return randomMove;
 
-            var floatAverageRating = Convert.ToSingle(averageRating);
+            //var averageRating = this.moveCrud.getAverageRating(this.randomMove);
 
-            Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + floatAverageRating + ".");
+            //var floatAverageRating = Convert.ToSingle(averageRating);
 
-            this.moveToBeRated = this.randomMove;
+            //Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + floatAverageRating + ".");
+
+            //this.moveToBeRated = this.randomMove;
         }
 
-        public void GiveListOfMoves()
+        public List<Move> GiveListOfMoves()
         {
-            List<Move> moves = this.moveCrud.ReadAllMoves();
+            var moves = this.moveCrud.ReadAllMoves();
+            return moves;
 
-            foreach (Move move in moves)
-            {
-                Console.WriteLine(move.Id + ". " + move.Name);
-            }
+            //foreach (Move move in moves)
+            //{
+            //    Console.WriteLine(move.Id + ". " + move.Name);
+            //}
             
         }
 
-        public void GiveMoveBasedOnId(int id)
+        public Move GiveMoveBasedOnId(int id)
         {
             var chosenMove = this.moveCrud.ReadMoveById(id);
-            var averageRating = this.moveCrud.getAverageRating(chosenMove);
+            return chosenMove;
 
-            var floatAverageRating = Convert.ToSingle(averageRating);
+            //var averageRating = this.moveCrud.getAverageRating(chosenMove);
 
-            Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + floatAverageRating + ".");
+            //var floatAverageRating = Convert.ToSingle(averageRating);
 
-            this.moveToBeRated = chosenMove;
+            //Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + floatAverageRating + ".");
+
+            //this.moveToBeRated = chosenMove;
 
         }
 

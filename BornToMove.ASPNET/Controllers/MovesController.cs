@@ -16,18 +16,22 @@ namespace BornToMove.ASPNET.Controllers
         }
         public IActionResult Index()
         {
+          List<Move> listOfAllMoves = _buMove.GiveListOfMoves();
             // code om de lijst met moves op te halen
             return View();
         }
         public IActionResult Details(int id)
         {
-            Move move = // code om een enkele move op te halen met dit id
-        return View(move);
+            
+            Move move = _buMove.GiveMoveBasedOnId(id);
+            // code om een enkele move op te halen met dit id
+            return View(move);
         }
 
         public IActionResult Random()
         {
-            Move randomMove = // code om een random move op te halen
+            Move randomMove = _buMove.GenerateRandomMove();
+                // code om een random move op te halen
         return View("Details", randomMove);
         }
     }
