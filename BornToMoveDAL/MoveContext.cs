@@ -11,7 +11,7 @@ namespace BornToMove.DAL
         // database in Entity Framework Core. It represents a session with the
         // underlying database and provides a way to query and manipulate data
         public DbSet<Move> Move { get; set; }
-        DbSet<MoveRating> MoveRating { get; set; }
+        public DbSet<MoveRating> MoveRating { get; set; }
 
 
         public void CheckAndAddMovesIfTableEmpty()

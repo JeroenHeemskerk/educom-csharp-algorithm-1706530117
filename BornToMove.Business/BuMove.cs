@@ -44,7 +44,7 @@ namespace BornToMove.Business
             //this.moveToBeRated = this.randomMove;
         }
 
-        public List<Move> GiveListOfMoves()
+        public List<MoveRating> GiveListOfMoves()
         {
             var moves = this.moveCrud.ReadAllMoves();
             return moves;

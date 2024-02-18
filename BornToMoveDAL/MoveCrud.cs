@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using BornToMove;
 using Microsoft.EntityFrameworkCore;
+using Organizer;
 
 
 namespace BornToMove.DAL
@@ -33,19 +34,19 @@ namespace BornToMove.DAL
             }
         }
 
-        public List<Move>? ReadAllMoves()
+        public List<MoveRating>? ReadAllMoves()
         {
-            //deze lijst include al ratings?
-            //rotatesort met moverating als type
-            // 
-
             try
             {
-                var moves = MoveContext.Move
-                    .Include(m => m.Ratings)
+                var moves = MoveContext.MoveRating
                     .ToList();
 
-                return moves;
+                RatingsConverter converter = new RatingsConverter();
+                RotateSort<MoveRating> rotateSort = new RotateSort<MoveRating>();
+
+                var movesSorted = rotateSort.Sort(moves, converter);
+
+                return movesSorted;
             }
             catch (Exception e)
             {
