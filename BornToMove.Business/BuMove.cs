@@ -35,40 +35,18 @@ namespace BornToMove.Business
 
             return randomMove;
 
-            //var averageRating = this.moveCrud.getAverageRating(this.randomMove);
-
-            //var floatAverageRating = Convert.ToSingle(averageRating);
-
-            //Console.WriteLine(randomMove.Id + ". Name: " + randomMove.Name + ", Description: " + randomMove.Description + ", SweatRate: " + randomMove.SweatRate + " , Average Rating: " + floatAverageRating + ".");
-
-            //this.moveToBeRated = this.randomMove;
         }
 
-        public List<MoveRating> GiveListOfMoves()
+        public List<(Move move, float avg)> GiveListOfMoves()
         {
             var moves = this.moveCrud.ReadAllMoves();
             return moves;
-
-            //foreach (Move move in moves)
-            //{
-            //    Console.WriteLine(move.Id + ". " + move.Name);
-            //}
-            
         }
 
         public Move GiveMoveBasedOnId(int id)
         {
             var chosenMove = this.moveCrud.ReadMoveById(id);
             return chosenMove;
-
-            //var averageRating = this.moveCrud.getAverageRating(chosenMove);
-
-            //var floatAverageRating = Convert.ToSingle(averageRating);
-
-            //Console.WriteLine(chosenMove.Id + ". Name: " + chosenMove.Name + ", Description: " + chosenMove.Description + ", Sweatrate: " + chosenMove.SweatRate + ", Average Rating: " + floatAverageRating + ".");
-
-            //this.moveToBeRated = chosenMove;
-
         }
 
         public void SaveMoveIfNotExists()

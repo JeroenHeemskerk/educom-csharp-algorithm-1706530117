@@ -8,6 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using BornToMove;
 using Microsoft.EntityFrameworkCore;
 using Organizer;
+using System.Collections;
 
 
 namespace BornToMove.DAL
@@ -22,7 +23,8 @@ namespace BornToMove.DAL
             this.MoveContext = new MoveContext();
         }
 
-        public void CreateMove(Move move) {
+        public void CreateMove(Move move)
+        {
             try
             {
                 MoveContext.Move.Add(move);
@@ -34,11 +36,12 @@ namespace BornToMove.DAL
             }
         }
 
-        public List<MoveRating>? ReadAllMoves()
+        public List<MoveRating>? ReadAllRatings()
         {
             try
             {
                 var moves = MoveContext.MoveRating
+                    .Include(m => m.Move)
                     .ToList();
 
                 RatingsConverter converter = new RatingsConverter();
@@ -47,6 +50,27 @@ namespace BornToMove.DAL
                 var movesSorted = rotateSort.Sort(moves, converter);
 
                 return movesSorted;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Something went wrong, exception: {e.Message}");
+                return null;
+            }
+        }
+
+        public List<(Move move, float avg)>? ReadAllMoves()
+        {
+            try
+            {
+                var moves = MoveContext.Move
+                    .Include(m => m.Ratings)
+                    .ToList();
+
+                List<(Move, float)> movesWithAvgRating = moves
+                    .Select(move => (move, getAverageRating(move)))
+                    .ToList();
+
+                return movesWithAvgRating;
             }
             catch (Exception e)
             {
@@ -123,10 +147,10 @@ namespace BornToMove.DAL
         {
             try
             {
-               var moveRating = new MoveRating { Rating = ratingIntensity, Vote = ratingMove };
-               move.Ratings.Add(moveRating);
-               MoveContext.SaveChanges();
-               Console.WriteLine("Successfully added your ratings to the database.");            
+                var moveRating = new MoveRating { Rating = ratingIntensity, Vote = ratingMove };
+                move.Ratings.Add(moveRating);
+                MoveContext.SaveChanges();
+                Console.WriteLine("Successfully added your ratings to the database.");
             }
             catch (Exception e)
             {
@@ -136,13 +160,14 @@ namespace BornToMove.DAL
         }
 
 
-        public double getAverageRating(Move move)
+        public float getAverageRating(Move move)
         {
             try
             {
                 if (move != null)
-                {  
-                    double averageRating = move.Ratings.Select(r => r.Rating).DefaultIfEmpty(0).Average();
+                {
+                    float averageRating = (float)move.Ratings.Select(r => r.Rating).DefaultIfEmpty(0).Average();
+                    
                     return averageRating;
                 }
                 else

@@ -17,9 +17,10 @@ namespace BornToMove.ASPNET.Controllers
         }
         public IActionResult Index()
         {
-          List<MoveRating> listOfAllMoves = _buMove.GiveListOfMoves();
-            MoveViewModel moveModel = new MoveViewModel { 
-                Moves = listOfAllMoves };
+            List<(Move move, float avg)> listOfMovesAndAverages = _buMove.GiveListOfMoves();
+            MoveViewModel moveModel = new MoveViewModel {
+                MoveWithAverageRatingTuples = listOfMovesAndAverages
+            };
                
             // code om de lijst met moves op te halenx
             return View(moveModel);

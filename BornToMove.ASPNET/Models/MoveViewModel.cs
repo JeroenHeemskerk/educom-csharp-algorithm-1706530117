@@ -4,6 +4,6 @@ namespace BornToMove.ASPNET.Models
 {
     public class MoveViewModel
     {
-        public required List<MoveRating> Moves { get; set; }
+        public required List<(Move move, float avg)> MoveWithAverageRatingTuples { get; set; }
     }
 }
