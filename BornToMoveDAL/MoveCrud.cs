@@ -57,30 +57,6 @@ namespace BornToMove.DAL
                 return null;
             }
         }
-
-        //public List<(Move move, float avg)>? ReadAllMoves()
-        //{
-        //    try
-        //    {
-        //        var moves = MoveContext.Move
-        //            .Include(m => m.Ratings)
-        //            .ToList();
-
-        //        List<(Move, float)> movesWithAvgRating = moves
-        //            .Select(move => (move, getAverageRating(move)))
-        //            .ToList();
-
-        //        return movesWithAvgRating;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine($"Something went wrong, exception: {e.Message}");
-        //        return null;
-        //    }
-        //}
-
-
-
         public List<MoveRating> ReadAllMoves()
         {
             List<MoveRating> allMoves = MoveContext.Move
@@ -192,7 +168,6 @@ namespace BornToMove.DAL
             }
 
         }
-
 
         public float getAverageRating(Move move)
         {

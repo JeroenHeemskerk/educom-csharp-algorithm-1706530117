@@ -13,7 +13,6 @@ namespace BornToMove.ASPNET.Controllers
             _buMove = buMove;
         }
 
-
         // GET: Moves
         public IActionResult Index()
         {
@@ -21,7 +20,7 @@ namespace BornToMove.ASPNET.Controllers
             return View(allMoves);
         }
 
-        // GET: Moves/Details/5
+        // GET: Moves/Details/1
         public IActionResult Details(int id, string? returnPath)
         {
             System.Console.WriteLine($"return path = {returnPath}");
