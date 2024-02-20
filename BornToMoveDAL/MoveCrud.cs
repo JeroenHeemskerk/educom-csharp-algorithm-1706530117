@@ -58,54 +58,88 @@ namespace BornToMove.DAL
             }
         }
 
-        public List<(Move move, float avg)>? ReadAllMoves()
+        //public List<(Move move, float avg)>? ReadAllMoves()
+        //{
+        //    try
+        //    {
+        //        var moves = MoveContext.Move
+        //            .Include(m => m.Ratings)
+        //            .ToList();
+
+        //        List<(Move, float)> movesWithAvgRating = moves
+        //            .Select(move => (move, getAverageRating(move)))
+        //            .ToList();
+
+        //        return movesWithAvgRating;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine($"Something went wrong, exception: {e.Message}");
+        //        return null;
+        //    }
+        //}
+
+
+
+        public List<MoveRating> ReadAllMoves()
         {
-            try
-            {
-                var moves = MoveContext.Move
-                    .Include(m => m.Ratings)
-                    .ToList();
-
-                List<(Move, float)> movesWithAvgRating = moves
-                    .Select(move => (move, getAverageRating(move)))
-                    .ToList();
-
-                return movesWithAvgRating;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Something went wrong, exception: {e.Message}");
-                return null;
-            }
+            List<MoveRating> allMoves = MoveContext.Move
+                .Include(m => m.Ratings)
+                .Select(move => new MoveRating()
+                {
+                    Move = move,
+                    Rating = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Rating) : 0,
+                    Vote = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Vote) : 0
+                })
+                .ToList();
+            allMoves.Sort(new RatingsConverter());
+            return allMoves;
         }
 
-        public Move? ReadMoveById(int id)
+        public MoveRating ReadRandomMove()
         {
-            try
+            Move randomMove = MoveContext.Move
+                .Include(m => m.Ratings)
+                .OrderBy(m => Guid.NewGuid())
+                .FirstOrDefault();
+            if (randomMove != null)
             {
-                var selectedMove = MoveContext.Move
-                    .Include(m => m.Ratings)
-                    .FirstOrDefault(move => move.Id == id);
-
-                return selectedMove;
+                MoveRating moveRating = new MoveRating()
+                {
+                    Move = randomMove,
+                    Rating = randomMove.Ratings != null && randomMove.Ratings.Any() ? randomMove.Ratings.Average(r => r.Rating) : 0,
+                    Vote = randomMove.Ratings != null && randomMove.Ratings.Any() ? randomMove.Ratings.Average(r => r.Vote) : 0
+                };
+                return moveRating;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Something went wrong, exception: {e.Message}");
-                return null;
-            }
+            return null;
         }
+
+        public MoveRating ReadMoveById(int id)
+        {
+            MoveRating moveById = MoveContext.Move
+                .Include(m => m.Ratings)
+                .Where(m => m.Id == id)
+                .Select(move => new MoveRating()
+                {
+                    Move = move,
+                    Rating = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Rating) : 0,
+                    Vote = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Vote) : 0
+                })
+                .FirstOrDefault();
+            return moveById;
+        }
+
 
         public void UpdateMove(Move move)
         {
-            try
+            Move? moveToUpdate = MoveContext.Move?.FirstOrDefault(m => m.Id == move.Id);
+            if (moveToUpdate != null)
             {
-                MoveContext.Move.Update(move);
+                moveToUpdate.Name = move.Name;
+                moveToUpdate.Description = move.Description;
+
                 MoveContext.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Something went wrong, exception: {e.Message}");
             }
         }
 

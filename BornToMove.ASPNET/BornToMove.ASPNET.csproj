@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Moves\Random.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BornToMove.Business\BornToMove.Business.csproj" />
     <ProjectReference Include="..\BornToMoveDAL\BornToMove.DAL.csproj" />
   </ItemGroup>

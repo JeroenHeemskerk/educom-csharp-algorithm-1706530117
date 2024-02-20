@@ -22,31 +22,20 @@ namespace BornToMove.Business
             this.moveCrud = new MoveCrud();
         }
 
-        public Move GenerateRandomMove()
+        public MoveRating GenerateRandomMove()
         {
-            //Haal alle id's op en stop ze in een lijst
-            var listOfIds = this.moveCrud.GetAllIds();
-            //Selecteer random index in die lijst en pak corresponderende waarde(id)
-            Random random = new Random();
-            int randomIndex = random.Next(0, listOfIds.Count);
-            var randomId = listOfIds[randomIndex];
-            //Haal move behorend bij random id op
-            this.randomMove = this.moveCrud.ReadMoveById(randomId);
-
-            return randomMove;
-
+            return moveCrud.ReadRandomMove();
         }
 
-        public List<(Move move, float avg)> GiveListOfMoves()
+        public List<MoveRating> GetAllMoves()
         {
-            var moves = this.moveCrud.ReadAllMoves();
-            return moves;
+            return this.moveCrud.ReadAllMoves();
         }
 
-        public Move GiveMoveBasedOnId(int id)
+        public MoveRating GiveMoveBasedOnId(int id)
         {
-            var chosenMove = this.moveCrud.ReadMoveById(id);
-            return chosenMove;
+             return this.moveCrud.ReadMoveById(id);
+       
         }
 
         public void SaveMoveIfNotExists()
@@ -74,24 +63,12 @@ namespace BornToMove.Business
             }
         }
 
-        public void modifyMove()
+
+        public void ModifyMove(Move move)
         {
-            Console.WriteLine("What is the id of the move you want to modify?");
-            var idMoveToModify = int.Parse(Console.ReadLine());
-
-            var moveToModify = this.moveCrud.ReadMoveById(idMoveToModify);
-
-            Console.WriteLine("What is the new name of this move?");
-            moveToModify.Name = Console.ReadLine();
-            Console.WriteLine("What is the new description of this move?");
-            moveToModify.Description = Console.ReadLine();
-            Console.WriteLine("What is the new sweatrate of this move?");
-            moveToModify.SweatRate = int.Parse(Console.ReadLine());
-
-            this.moveCrud.UpdateMove(moveToModify);
-
-            Console.WriteLine("The move has been modified.");
+            this.moveCrud.UpdateMove(move);
         }
+
 
 
         public void deleteMove(int idOfMoveToBeDeleted) {
