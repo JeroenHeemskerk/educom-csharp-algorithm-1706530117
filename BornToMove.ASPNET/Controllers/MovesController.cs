@@ -2,6 +2,7 @@
 using BornToMove.Business;
 using BornToMove.DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BornToMove.ASPNET.Controllers
 {
@@ -29,16 +30,39 @@ namespace BornToMove.ASPNET.Controllers
                 return NotFound();
             }
 
-            var move = _buMove.GiveMoveBasedOnId(id);
-            if (move == null)
+            var moveRating = _buMove.GiveMoveBasedOnId(id);
+            if (moveRating == null)
             {
                 return NotFound();
             }
 
             ViewData["returnPath"] = returnPath ?? "Home";
 
-            return View(move);
+            return View(moveRating);
         }
+
+
+        [HttpPost("/Moves/Details/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Rate([Bind("Move,Rating,Vote")] MoveRating moveRating, int id)
+        {
+
+            Move move = _buMove.moveCrud.ReadMoveById(id);
+
+            if(move == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            _buMove.moveCrud.addRating(move, moveRating.Vote, moveRating.Rating);
+
+            return RedirectToAction("Details", "Moves", new { id = id });
+
+        }
+
+
+
+
         public IActionResult Random()
         {
             var move= _buMove.GenerateRandomMove();
@@ -50,16 +74,6 @@ namespace BornToMove.ASPNET.Controllers
             return View("Details", move);
         }
 
-
-
-
-
-
-
-
-
-
-        //This action renders a form to create a new move
         public IActionResult Create()
         {
             return View();
@@ -69,12 +83,21 @@ namespace BornToMove.ASPNET.Controllers
         //This action receives form data submitted to create a new move,
         //processes it, and saves the new move to the database.
         [HttpPost]
-
-        public IActionResult Create(MoveViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,SweatRate")] Move move)
         {
-            return View();
-
+            if (ModelState.IsValid)
+            {
+                _buMove.moveCrud.MoveContext.Add(move);
+             
+                await _buMove.moveCrud.MoveContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(move);
         }
+
+
+
 
         public IActionResult Edit()
         {

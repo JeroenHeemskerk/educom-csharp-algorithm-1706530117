@@ -11,7 +11,7 @@ namespace BornToMove.Business
 {
     public class BuMove
     {
-        private MoveCrud moveCrud;
+        public MoveCrud moveCrud;
         private double ratingMove;
         private double ratingIntensity;
         private Move randomMove;
@@ -34,7 +34,7 @@ namespace BornToMove.Business
 
         public MoveRating GiveMoveBasedOnId(int id)
         {
-             return this.moveCrud.ReadMoveById(id);
+             return this.moveCrud.ReadMoveRatingById(id);
        
         }
 

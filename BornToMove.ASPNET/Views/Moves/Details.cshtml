@@ -25,6 +25,12 @@
             @Html.DisplayFor(model => model.Move.Description)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vote)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vote)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Rating)
         </dt>
         <dd class="col-sm-10">
@@ -32,8 +38,33 @@
         </dd>
     </dl>
 </div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Add a rating: </h4>
+        <hr />
+        <form asp-action="Rate" asp-route-id="@Model?.Move.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" placeholder="0" value="0" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+             </div>
+            <div class="form-group mb-4">
+                <label asp-for="Vote" class="control-label"></label>
+                <input asp-for="Vote" class="form-control" placeholder="0" value="0" />
+                <span asp-validation-for="Vote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Rate" class="btn btn-warning mb-4" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model?.Id">Delete</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Move.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model?.Move.Id">Delete</a> |
     <a asp-action="Index">Back to list</a>
 </div>

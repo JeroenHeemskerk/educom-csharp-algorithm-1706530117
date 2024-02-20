@@ -15,7 +15,7 @@ namespace BornToMove.DAL
 {
     public class MoveCrud
     {
-        private MoveContext MoveContext;
+        public MoveContext MoveContext;
 
 
         public MoveCrud()
@@ -91,7 +91,7 @@ namespace BornToMove.DAL
             return null;
         }
 
-        public MoveRating ReadMoveById(int id)
+        public MoveRating ReadMoveRatingById(int id)
         {
             MoveRating moveById = MoveContext.Move
                 .Include(m => m.Ratings)
@@ -99,13 +99,29 @@ namespace BornToMove.DAL
                 .Select(move => new MoveRating()
                 {
                     Move = move,
-                    Rating = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Rating) : 0,
-                    Vote = move.Ratings != null && move.Ratings.Any() ? move.Ratings.Average(r => r.Vote) : 0
+                    Rating = move.Ratings != null && move.Ratings.Any() ? Math.Round(move.Ratings.Average(r => r.Rating), 1) : 0,
+                    Vote = move.Ratings != null && move.Ratings.Any() ? Math.Round(move.Ratings.Average(r => r.Vote), 1) : 0
                 })
                 .FirstOrDefault();
             return moveById;
         }
 
+        public Move? ReadMoveById(int id)
+        {
+            try
+            {
+                var selectedMove = MoveContext.Move
+                    .Include(m => m.Ratings)
+                    .FirstOrDefault(move => move.Id == id);
+
+                return selectedMove;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Something went wrong, exception: {e.Message}");
+                return null;
+            }
+        }
 
         public void UpdateMove(Move move)
         {

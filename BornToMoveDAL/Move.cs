@@ -7,7 +7,7 @@ namespace BornToMove.DAL
 {
     public class Move
 	{
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public int SweatRate { get; set; }
@@ -15,12 +15,13 @@ namespace BornToMove.DAL
         //Onderstaande property creeert een one-to-many relatie tussen Move en MoveRating
         virtual public ICollection<MoveRating> Ratings { get; set; } = new List<MoveRating>();  
 
-
+        public Move() { }
         public Move(string name, string description, int sweatRate)
         {
             this.Name = name;
             this.Description = description;
             this.SweatRate = sweatRate;
+            this.Ratings = new List<MoveRating>();
         }
     }
 }
