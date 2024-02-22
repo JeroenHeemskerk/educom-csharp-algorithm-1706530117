@@ -21,16 +21,19 @@ namespace BornToMove.ASPNET.Controllers
             return View(allMoves);
         }
 
+        //--------------------------------------------------------------------------------
+
         // GET: Moves/Details/1
-        public IActionResult Details(int id, string? returnPath)
+        public IActionResult Details(int? id, string? returnPath)
         {
-            System.Console.WriteLine($"return path = {returnPath}");
+            Console.WriteLine($"return path = {returnPath}");
+           
             if (id == null)
             {
                 return NotFound();
             }
 
-            var moveRating = _buMove.GiveMoveBasedOnId(id);
+            var moveRating = _buMove.GiveMoveBasedOnId(id.Value);
             if (moveRating == null)
             {
                 return NotFound();
@@ -44,7 +47,7 @@ namespace BornToMove.ASPNET.Controllers
 
         [HttpPost("/Moves/Details/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Rate([Bind("Move,Rating,Vote")] MoveRating moveRating, int id)
+        public IActionResult Rate([Bind("Move,Rating,Vote")] MoveRating moveRating, int id)
         {
 
             Move move = _buMove.moveCrud.ReadMoveById(id);
@@ -60,8 +63,7 @@ namespace BornToMove.ASPNET.Controllers
 
         }
 
-
-
+        //--------------------------------------------------------------------------------
 
         public IActionResult Random()
         {
@@ -74,14 +76,14 @@ namespace BornToMove.ASPNET.Controllers
             return View("Details", move);
         }
 
+        //--------------------------------------------------------------------------------
+
         public IActionResult Create()
         {
             return View();
 
         }
 
-        //This action receives form data submitted to create a new move,
-        //processes it, and saves the new move to the database.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,SweatRate")] Move move)
@@ -89,8 +91,58 @@ namespace BornToMove.ASPNET.Controllers
             if (ModelState.IsValid)
             {
                 _buMove.moveCrud.MoveContext.Add(move);
-             
                 await _buMove.moveCrud.MoveContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(move);
+        }
+
+        //--------------------------------------------------------------------------------
+
+        // GET: Moves/Edit/1
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var move = await _buMove.moveCrud.MoveContext.Move.FindAsync(id);
+            if (move == null)
+            {
+                return NotFound();
+            }
+            return View(move);
+        }
+
+        // POST: Moves/Edit/1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,SweatRate")] Move move)
+        {
+            if (id != move.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _buMove.moveCrud.MoveContext.Update(move);
+                    await _buMove.moveCrud.MoveContext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MoveExists(move.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(move);
@@ -98,29 +150,45 @@ namespace BornToMove.ASPNET.Controllers
 
 
 
+        //--------------------------------------------------------------------------------
 
-        public IActionResult Edit()
+
+        // GET: Moves/Delete/1
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var move = await _buMove.moveCrud.MoveContext.Move
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (move == null)
+            {
+                return NotFound();
+            }
+
+            return View(move);
         }
 
-
-        [HttpPost]
-        public IActionResult Edit(MoveViewModel model)
+        // POST: Moves/Delete/1
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return View();
+            var move = await _buMove.moveCrud.MoveContext.Move.FindAsync(id);
+            if (move != null)
+            {
+                _buMove.moveCrud.MoveContext.Move.Remove(move);
+            }
+
+            await _buMove.moveCrud.MoveContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-
-        public IActionResult Delete()
+        private bool MoveExists(int id)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Delete(MoveViewModel model)
-        {
-            return View();
+            return _buMove.moveCrud.MoveContext.Move.Any(e => e.Id == id);
         }
 
     }

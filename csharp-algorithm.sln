@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.DAL", "BornToMov
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.OrganizerTest", "BornToMove.OrganizerTest\BornToMove.OrganizerTest.csproj", "{DB5C1DF4-F6AD-4226-871F-E117B725110F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BornToMove.ASPNET", "BornToMove.ASPNET\BornToMove.ASPNET.csproj", "{378005EB-70C9-4DF7-8A7B-0ADF0F463572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BornToMove.ASPNET", "BornToMove.ASPNET\BornToMove.ASPNET.csproj", "{378005EB-70C9-4DF7-8A7B-0ADF0F463572}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

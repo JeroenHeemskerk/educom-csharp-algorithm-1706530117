@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AjaxControlToolkit" Version="20.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BornToMove.Business\BornToMove.Business.csproj" />
     <ProjectReference Include="..\BornToMoveDAL\BornToMove.DAL.csproj" />
   </ItemGroup>

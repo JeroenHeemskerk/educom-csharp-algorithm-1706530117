@@ -74,7 +74,7 @@ namespace BornToMove.Business
         public void deleteMove(int idOfMoveToBeDeleted) {
 
             this.moveCrud.DeleteMove(idOfMoveToBeDeleted);
-            Console.WriteLine($"'The move with id: {idOfMoveToBeDeleted} has been deleted'"); }
+        }
 
 
 
